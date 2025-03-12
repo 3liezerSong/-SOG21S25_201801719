@@ -2,6 +2,9 @@ from conexion import conectar_bd
 import pandas as pd
 import pyodbc
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 df_global = None
 dimensiones_global = None
 
@@ -178,14 +181,16 @@ def cargar(dimensiones):
             return
 
         cursor = conn.cursor()
+        cursor.fast_executemany = True 
         cursor.execute("USE practica1;")
-
+        conn.autocommit = False
         # Tabla gender
         data_to_insert_gender = [(row['customer_gender'],) for _, row in dim_gender.iterrows()]
         cursor.executemany("""
             INSERT INTO gender (gender_name)
             VALUES (?)
         """, data_to_insert_gender)
+        print("cargando gender")
         
 
         # Tabla customer
@@ -194,7 +199,8 @@ def cargar(dimensiones):
             INSERT INTO customer (customer_id, gender_id, customer_age)
             VALUES (?, ?, ?)
         """, data_to_insert_customer)
-
+        print("cargando customer")
+        
 
         # Tabla product
         data_to_insert_product = [(row['product_name'], row['product_category'], row['product_price']) for _, row in dim_product.iterrows()]
@@ -202,7 +208,7 @@ def cargar(dimensiones):
             INSERT INTO product (product_name, product_category, product_price)
             VALUES (?, ?, ?)
         """, data_to_insert_product)
-
+        print("cargando product")
 
         # Tabla order
         data_to_insert_order = [(row['order_id'], row['purchase_date'], row['customer_id'], row['order_total'], row['payment_method'], row['shipping_region']) for _, row in dim_order.iterrows()]
@@ -210,7 +216,7 @@ def cargar(dimensiones):
             INSERT INTO [order] (order_id, purchase_date, customer_id, order_total, payment_method, shipping_region)
             VALUES (?, ?, ?, ?, ?, ?)
         """, data_to_insert_order)
-
+        print("cargando order")
 
         # Tabla order_detail
         data_to_insert_order_detail = [(row['order_id'], row['product_name'], row['quantity']) for _, row in dim_order_detail.iterrows()]
@@ -218,6 +224,7 @@ def cargar(dimensiones):
             INSERT INTO order_detail (order_id, product_name, quantity)
             VALUES (?, ?, ?)
         """, data_to_insert_order_detail)
+        print("cargando order_detail")
 
         conn.commit()
         print("\033[32mDatos cargados exitosamente.\033[0m")
@@ -229,6 +236,31 @@ def cargar(dimensiones):
     finally:
         if conn:
             conn.close()
+
+
+
+def obtener_datos():
+    try:
+        conn = conectar_bd()
+        if conn is None:
+            return None
+
+        cursor = conn.cursor()
+        cursor.execute("USE practica1;")  # Asegurarse de que estamos usando la base de datos correcta
+
+        query = '''
+        SELECT o.order_id, o.purchase_date, o.order_total, p.product_category, o.shipping_region
+        FROM [order] o
+        JOIN order_detail od ON o.order_id = od.order_id
+        JOIN product p ON od.product_name = p.product_name
+        '''
+        df = pd.read_sql(query, conn)
+        conn.close()
+        return df
+
+    except pyodbc.Error as e:
+        print(f"Error al obtener los datos: {e}")
+        return None
 
 
 if __name__ == "__main__":

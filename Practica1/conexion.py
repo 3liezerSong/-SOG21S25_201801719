@@ -1,25 +1,30 @@
+import os
 import pyodbc
+from dotenv import load_dotenv
+
+load_dotenv()
 
 CONFIG = {
-    "driver": "ODBC Driver 17 for SQL Server",
-    "server": "DESKTOP\\MSSQLSERVER01", 
-    "database": "master",
+    "driver": os.getenv("DB_DRIVER", "ODBC Driver 17 for SQL Server"),
+    "server": os.getenv("DB_SERVER"),
+    "username": os.getenv("DB_USERNAME"),
+    "password": os.getenv("DB_PASSWORD"),
 }
 
-
 def conectar_bd():
-    """Establece conexión con SQL Server usando autenticación de Windows."""
+    """Establece conexión con SQL Server usando autenticación SQL (usuario y contraseña)."""
     try:
         conn = pyodbc.connect(
-            f"DRIVER={CONFIG['driver']};"
+            f"DRIVER={{{CONFIG['driver']}}};"
             f"SERVER={CONFIG['server']};"
-            f"DATABASE={CONFIG['database']};"
-            "Trusted_Connection=yes;",  # Autenticación de Windows
+            f"UID={CONFIG['username']};"
+            f"PWD={CONFIG['password']};"
+            f"TrustServerCertificate=yes;",
             autocommit=True
         )
         return conn
     except pyodbc.Error as e:
-        print("\033[31mError al conectar con la base de datos:\033[0m", e)
+        print("\033[31mError de conexión:\033[0m", e.args[1]) 
         return None
 
 def probar_conexion():
