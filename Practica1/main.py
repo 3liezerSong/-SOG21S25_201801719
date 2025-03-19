@@ -99,10 +99,183 @@ def crear_modelo():
         if conn:
             conn.close()
 
+##Creación de funciones para la visualización de datos
+
+def visualizar_datos(df):
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=df['product_category'], y=df['order_total'], estimator=sum, ci=None)
+    plt.title("Distribución de Ventas por Categoría de Producto")
+    plt.xlabel("Categoría del Producto")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=df['shipping_region'], y=df['order_total'], estimator=sum, ci=None)
+    plt.title("Distribución de Ventas por Región")
+    plt.xlabel("Región de Envío")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+
+def calcular_estadisticas(df):
+    print("\nEstadísticas para variables numéricas:")
+    columnas_numericas = df.select_dtypes(include=['number'])
+    estadisticas = columnas_numericas.agg(['mean', 'median', lambda x: x.mode().iloc[0] if not x.mode().empty else None])
+    estadisticas.rename(index={'<lambda>': 'mode'}, inplace=True)
+    print(estadisticas)
+    return estadisticas
+
+def analizar_tendencias(df):
+    df['month'] = df['purchase_date'].dt.month_name()
+    ventas_por_mes = df.groupby('month')['order_total'].sum().sort_values()
+    
+    print("\nMeses con menores ventas:")
+    print(ventas_por_mes.head(3))
+    print("\nMeses con mayores ventas:")
+    print(ventas_por_mes.tail(3))
+    
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=ventas_por_mes.index, y=ventas_por_mes.values)
+    plt.title("Ventas Totales por Mes")
+    plt.xlabel("Mes")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+    productos_vendidos = df.groupby('product_name')['quantity'].sum().sort_values()
+    
+    print("\nProductos menos vendidos:")
+    print(productos_vendidos.head(5))
+    print("\nProductos más vendidos:")
+    print(productos_vendidos.tail(5))
+    
+    plt.figure(figsize=(12, 6))
+    sns.barplot(y=productos_vendidos.index[-10:], x=productos_vendidos.values[-10:])
+    plt.title("Top 10 Productos Más Vendidos")
+    plt.xlabel("Cantidad Vendida")
+    plt.ylabel("Producto")
+    plt.show()
+
+
+def segmentar_clientes(df):
+    # Agrupar por rangos de edad
+    bins = [0, 18, 25, 35, 45, 55, 65, 100]
+    labels = ['0-18', '19-25', '26-35', '36-45', '46-55', '56-65', '65+']
+    df['age_group'] = pd.cut(df['customer_age'], bins=bins, labels=labels, right=False)
+    
+    # Análisis de patrones de compra por edad
+    ventas_por_edad = df.groupby('age_group')['order_total'].sum()
+    print("\nVentas totales por grupo de edad:")
+    print(ventas_por_edad)
+    
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=ventas_por_edad.index, y=ventas_por_edad.values)
+    plt.title("Ventas por Grupo de Edad")
+    plt.xlabel("Grupo de Edad")
+    plt.ylabel("Total de Ventas")
+    plt.show()
+    
+    # Comparar comportamiento de compra entre géneros
+    ventas_por_genero = df.groupby('customer_gender')['order_total'].sum()
+    print("\nVentas totales por género:")
+    print(ventas_por_genero)
+    
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=ventas_por_genero.index, y=ventas_por_genero.values, palette="coolwarm")
+    plt.title("Ventas Totales por Género")
+    plt.xlabel("Género")
+    plt.ylabel("Total de Ventas")
+    plt.show()
+    
+    
+def analizar_correlaciones(df):
+    # Correlación entre total de la orden y edad del cliente
+    correlacion = df[['customer_age', 'order_total']].corr()
+    print("\nCorrelación entre la edad del cliente y el total de la orden:")
+    print(correlacion)
+    
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(x=df['customer_age'], y=df['order_total'], alpha=0.5)
+    plt.title("Relación entre Edad del Cliente y Total de la Orden")
+    plt.xlabel("Edad del Cliente")
+    plt.ylabel("Total de la Orden")
+    plt.show()
+    
+    # Relación entre categoría del producto y método de pago
+    plt.figure(figsize=(12, 6))
+    sns.countplot(x=df['product_category'], hue=df['payment_method'])
+    plt.title("Método de Pago Preferido por Categoría de Producto")
+    plt.xlabel("Categoría del Producto")
+    plt.ylabel("Frecuencia")
+    plt.xticks(rotation=45)
+    plt.legend(title="Método de Pago")
+    plt.show()
+    
+def generar_graficos(df):
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=df['product_category'], y=df['order_total'], estimator=sum, ci=None)
+    plt.title("Distribución de Ventas por Categoría de Producto")
+    plt.xlabel("Categoría del Producto")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=df['shipping_region'], y=df['order_total'], estimator=sum, ci=None)
+    plt.title("Distribución de Ventas por Región")
+    plt.xlabel("Región de Envío")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+    df['month'] = df['purchase_date'].dt.month_name()
+    ventas_por_mes = df.groupby('month')['order_total'].sum().sort_values()
+    plt.figure(figsize=(12, 6))
+    sns.lineplot(x=ventas_por_mes.index, y=ventas_por_mes.values, marker='o')
+    plt.title("Tendencia de Ventas por Mes")
+    plt.xlabel("Mes")
+    plt.ylabel("Total de Ventas")
+    plt.xticks(rotation=45)
+    plt.show()
+    
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(x=df['customer_age'], y=df['order_total'], alpha=0.5)
+    plt.title("Relación entre Edad del Cliente y Total de la Orden")
+    plt.xlabel("Edad del Cliente")
+    plt.ylabel("Total de la Orden")
+    plt.show()
+    
+    ventas_por_genero = df.groupby('customer_gender')['order_total'].sum()
+    plt.figure(figsize=(8, 6))
+    sns.barplot(x=ventas_por_genero.index, y=ventas_por_genero.values, palette="coolwarm")
+    plt.title("Ventas Totales por Género")
+    plt.xlabel("Género")
+    plt.ylabel("Total de Ventas")
+    plt.show()
+    
+    productos_vendidos = df.groupby('product_name')['quantity'].sum().sort_values()
+    plt.figure(figsize=(12, 6))
+    sns.barplot(y=productos_vendidos.index[-10:], x=productos_vendidos.values[-10:])
+    plt.title("Top 10 Productos Más Vendidos")
+    plt.xlabel("Cantidad Vendida")
+    plt.ylabel("Producto")
+    plt.show()
+    
+    plt.figure(figsize=(12, 6))
+    sns.countplot(x=df['product_category'], hue=df['payment_method'])
+    plt.title("Método de Pago Preferido por Categoría de Producto")
+    plt.xlabel("Categoría del Producto")
+    plt.ylabel("Frecuencia")
+    plt.xticks(rotation=45)
+    plt.legend(title="Método de Pago")
+    plt.show()
+    
+
 
 def extraer():
     print("\033[H\033[J")
-    path = "C:\\Users\\50255\\Documents\\-SOG21S25_201801719\\Practica1\\ventas_tienda_online.csv"
+    path = "ventas_tienda_online.csv"
     try:
         df = pd.read_csv(path, delimiter=",", on_bad_lines="skip", engine="python")
         print("\nColumnas leídas desde el archivo CSV:")
@@ -118,7 +291,16 @@ def extraer():
         print("\nÚltimas", filas_a_mostrar, "filas del archivo:")
         print(df.tail(filas_a_mostrar))
         input("Presione Enter para continuar...")
-
+        
+        ##Visualización de datos
+        calcular_estadisticas(df)
+        visualizar_datos(df)
+        analizar_tendencias(df)
+        segmentar_clientes(df)   
+        analizar_correlaciones(df)  
+        generar_graficos(df)  
+        
+        
         return df
 
     except Exception as e:
@@ -261,6 +443,9 @@ def obtener_datos():
     except pyodbc.Error as e:
         print(f"Error al obtener los datos: {e}")
         return None
+
+
+
 
 
 if __name__ == "__main__":
