@@ -1,0 +1,20 @@
+Ventas por Producto (Cantidad Comprada):
+ nombre_producto  cantidad_comprada
+           Bolso               1931
+           Botas               1922
+         Bufanda               2003
+        Camiseta               2034
+        Chaqueta               2119
+        Cinturón               1996
+           Gorro               2046
+        Pantalón               1935
+       Pantuflas               1981
+           Reloj               1881
+       Sandalias               2027
+         Sweater               2148
+         Vestido               1898
+      Zapatillas               1989
+Zapatos formales               2037
+
+Producto más vendido: Sweater (Cantidad: 2148)
+Producto menos popular: Reloj (Cantidad: 1881)

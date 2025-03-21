@@ -1,0 +1,1 @@
+Coeficiente de correlación entre total de orden y edad del cliente: 0.0092

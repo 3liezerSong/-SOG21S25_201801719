@@ -1,0 +1,6 @@
+Tabla de contingencia: Categoría del Producto vs Método de Pago:
+metodo_pago         Efectivo  PayPal  Tarjeta de crédito  Transferencia bancaria
+categoria_producto                                                              
+Accesorios               820     809                 844                     837
+Calzado                  854     815                 787                     861
+Ropa                     871     833                 816                     847

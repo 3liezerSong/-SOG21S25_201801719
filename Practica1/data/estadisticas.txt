@@ -1,0 +1,18 @@
+=== Estadísticas Descriptivas ===
+
+Medias:
+edad_cliente            48.3319
+precio_producto      104.891312
+cantidad_comprada        2.9993
+total_orden          314.474848
+
+Medianas:
+edad_cliente           48.0
+precio_producto      104.84
+cantidad_comprada       3.0
+total_orden           254.8
+
+Modas:
+   edad_cliente precio_producto  cantidad_comprada total_orden
+0            32           17.97                  2      150.20
+

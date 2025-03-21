@@ -1,0 +1,4 @@
+Segmentación por Género:
+genero_cliente  num_ordenes ventas_totales promedio_orden
+      Femenino         4979     1568825.47     315.088466
+     Masculino         5015     1574289.99     313.916249

@@ -270,14 +270,98 @@ plt.xticks(rotation=45)
 plt.legend(title="Método de Pago")
 plt.show()
 ```
+### Modelo Entidad Relacion
+![Diagrama ER](./img/ER.png)
 
 
 ### **5️⃣ Conclusión**
 
-✔ **Cada tipo de gráfico se seleccionó en función del tipo de datos y el objetivo del análisis.**  
-✔ **Se priorizó la claridad, la facilidad de interpretación y la efectividad en la comunicación de los hallazgos.**  
-✔ **El uso de diferentes visualizaciones permitió entender mejor el comportamiento de los clientes y las ventas.**  
+#### Variedad de métodos de pago equilibrada
+- El uso de efectivo, transferencia bancaria, tarjeta de crédito y PayPal está distribuido casi de manera uniforme. Esto indica que los clientes no tienen una preferencia dominante y valoran la disponibilidad de múltiples métodos de pago.
 
-🚀 **Este enfoque optimizó el análisis y permitió extraer insights valiosos para la toma de decisiones.**
+#### Ventas equilibradas por categoría de producto
+- Si bien la categoría Ropa muestra un ligero liderazgo en ventas totales, Calzado y Accesorios también presentan cifras muy cercanas. Esto sugiere que los clientes compran de forma bastante uniforme en todas las categorías.
+
+#### Segmento de mayor edad con mayor volumen de ventas
+- El grupo de clientes de 61+ años aporta el volumen de ventas más alto, superando a los grupos de menor edad. Esto puede significar que los clientes de mayor edad realizan compras más frecuentes o de mayor valor, representando una oportunidad de mercado importante.
+
+#### Estacionalidad y correlación débil con la edad
+- La tendencia de ventas por mes muestra picos en ciertos periodos (p. ej., mayo, julio) y caídas notables (p. ej., agosto).
+
+- La correlación entre la edad del cliente y el total de la orden es débil, lo que implica que la edad no es un factor determinante en el gasto por pedido, aunque el volumen total de ventas sea más alto en el segmento de mayor edad.
+
+-----------------------
+## Recomendaciones
+
+### Estudiante 1: Luis David Garcia Alay
+#### Enfoque de marketing segmentado por edad
+
+- Dado que el segmento de 61+ años representa el mayor volumen de ventas, conviene diseñar campañas de marketing y promociones específicas para este grupo, ofreciendo productos o descuentos que se ajusten a sus preferencias y aumentando su fidelización.
+
+#### Mantener y promover múltiples métodos de pago
+
+La adopción equilibrada de diferentes métodos de pago sugiere que los clientes aprecian la flexibilidad. Continuar ofreciendo diversas opciones (e incluso evaluar nuevos métodos, como pagos móviles) puede mejorar la experiencia de compra y facilitar un mayor ticket promedio.
+
+
+### Estudiante 2: Eliezer Abraham Zapeta Alvarafo
+
+#### Aprovechar la estacionalidad
+
+- Reforzar promociones en meses de ventas bajas (p. ej., agosto) para estimular la demanda, ya sea con ofertas especiales, lanzamientos de productos o campañas publicitarias.
+
+- Preparar inventario y personal adicional en los meses con picos de ventas (p. ej., mayo, julio) para satisfacer la demanda y evitar rupturas de stock o demoras.
+
+#### Impulsar ventas cruzadas entre categorías
+
+- Dado que las categorías Ropa, Calzado y Accesorios presentan ventas similares, se pueden crear combos o bundles que integren artículos de diferentes categorías, incentivando compras más completas.
+
+- También se pueden lanzar programas de fidelización que ofrezcan beneficios al adquirir productos de distintas categorías, maximizando así el valor promedio de cada cliente.
  
+-----------------
+# Respuestas a las preguntas claves de la practica
 
+## a. ¿Cómo podrían los insights obtenidos ayudar a diferenciarse de la competencia?
+Los datos revelan patrones específicos en el comportamiento de los clientes—por ejemplo, la diversidad en métodos de pago, la segmentación por edad y género, y la estacionalidad en las ventas. Estos insights permiten a la empresa:
+
+- **Personalizar la oferta:** Conocer qué segmentos (como el grupo de mayor edad) generan más ventas o cuáles son las categorías más demandadas permite diseñar promociones y servicios a medida.
+
+- **Optimizar la experiencia de compra:** Ofrecer múltiples opciones de pago y servicios alineados con las preferencias detectadas (como bundles entre categorías complementarias) ayuda a mejorar la percepción del cliente, diferenciándose por calidad y adaptabilidad.
+
+- **Responder rápidamente a tendencias:** La identificación de picos y caídas en ventas permite implementar estrategias de respuesta rápida, lo cual es difícil de igualar para la competencia que no cuenta con análisis de datos en tiempo real.
+
+## b. ¿Qué decisiones estratégicas podrían tomarse basándose en este análisis para aumentar las ventas y la satisfacción del cliente?
+Algunas decisiones estratégicas basadas en el análisis podrían ser:
+
+- **Segmentación y campañas dirigidas:** Enfocar esfuerzos de marketing en los segmentos más rentables (por ejemplo, el grupo de clientes de 61+ años) y adaptar la comunicación para diferentes grupos demográficos.
+
+- **Promociones estacionales:** Planificar campañas especiales en los meses de menor venta para incentivar la demanda y aprovechar los picos identificados para maximizar ventas.
+
+- **Bundles y cross-selling:** Diseñar ofertas que combinen productos de categorías relacionadas (ropa, calzado, accesorios) para incentivar compras mayores.
+
+- **Mejorar la experiencia de compra digital:** Asegurarse de que la variedad de métodos de pago y la interfaz de compra sean óptimos, lo que puede aumentar la satisfacción y fidelidad del cliente.
+
+## c. ¿Cómo podría este análisis de datos ayudar a la empresa a ahorrar costos o mejorar la eficiencia operativa?
+El análisis permite optimizar recursos y procesos internos al:
+
+- **Ajustar inventario y logística:** Al identificar periodos de alta y baja demanda, la empresa puede planificar mejor su stock, evitando tanto el exceso de inventario como la falta de productos.
+
+- **Optimizar la asignación de personal:** Conociendo las tendencias estacionales, se puede gestionar el personal de manera eficiente, incrementando la capacidad operativa en momentos críticos y reduciéndola en periodos tranquilos.
+
+- **Reducir costos de marketing:** Al enfocar las campañas en segmentos y periodos específicos, se optimiza la inversión publicitaria, dirigiendo recursos a acciones con mayor probabilidad de conversión.
+
+- **Mejorar procesos internos:** La detección de ineficiencias (por ejemplo, en la cadena de suministro o en el proceso de atención al cliente) permite implementar mejoras que reduzcan costos operativos a largo plazo.
+
+## d. ¿Qué datos adicionales recomendarían recopilar para obtener insights aún más valiosos en el futuro?
+Para profundizar en el análisis y obtener una visión más completa, se podrían recopilar los siguientes datos adicionales:
+
+- **Datos de comportamiento en el sitio web:** Información sobre la navegación, tiempo de permanencia, embudos de conversión y páginas visitadas para identificar puntos de fuga o áreas de mejora en la experiencia de usuario.
+
+- **Retroalimentación del cliente:** Encuestas de satisfacción, comentarios, reseñas y datos de atención al cliente que permitan evaluar la percepción del servicio y detectar áreas de oportunidad en productos o procesos.
+
+- **Datos demográficos y geográficos detallados:** Información como ubicación precisa, nivel socioeconómico, y preferencias culturales que permitan segmentar aún más a los clientes y personalizar ofertas.
+
+- **Información de la competencia y del mercado:** Datos sobre precios, promociones y tendencias de consumo en el sector, para poder ajustar la estrategia en función del entorno competitivo.
+
+- **Datos de campañas publicitarias y ROI:** Información sobre la efectividad de las acciones de marketing (costos, conversiones, retorno de inversión) que ayuden a optimizar futuras inversiones publicitarias.
+
+-----------
