@@ -6,61 +6,64 @@
 |Nombre                             |Carnet        |
 |-----------------------------------|--------------|
 |Luis David Garcia Alay             |201612511     |
-|Eliezer Abraham Zapeta Alvarafo	|201801719     |
+|Eliezer Abraham Zapeta Alvarado	|201801719     |
 
 
-# Documentacion
+# Documentación
 
-## Planificación del Proyecto: Análisis de Ventas en Línea
-- Inicio: 8 de marzo
-- Finalización prevista: 20 de marzo
-- Equipo: 2 miembros
+## PLANIFICACIÓN
+- **Inicio:** 8 de marzo
+- **Finalización prevista:** 20 de marzo
+- **Equipo:** 
+    - Eliezer Abraham Zapeta Alvarado (Miembro 1)
+    - Luis David Garcia Alay (Miembro 2)
 
 ### División de Tareas entre los Miembros del Equipo
 
 ![PLanificacion de tareas parctica 1](./img/Planificacion.png)
 
-
-### Herramientas y Tecnologías Utilizadas
-- **Lenguaje de programación: Python 🐍**
-- **Base de datos: AWS RDS (MySQL) ☁**
+### Herramientas y Tecnologías Utilizadas, Proyecto: Análisis de Ventas en Línea
+- **Lenguaje de programación:** Python
+- **Base de datos:** Google SQL (MySQL)
 - **Bibliotecas para análisis y visualización:**
-- **Pandas 📊 (Manejo de datos)**
-- **Matplotlib y Seaborn 📈 (Visualización)**
-- **Scikit-learn 🤖 (Análisis de correlación)**
-- **Entorno de desarrollo: Python / VS Code**
-- **Control de versiones: GitHub**
+    - Pandas (Manejo de datos)
+    - Matplotlib y Seaborn (Visualización)
+    - Scikit-learn (Análisis de correlación)
+- **Entorno de desarrollo:** Python / VS Code
+- **Control de versiones:** GitHub
 
 **Razón de elección:**
-- Python: Fácil manejo de datos y amplia compatibilidad con bibliotecas de análisis.
-- AWS RDS: Permite escalabilidad y acceso remoto a la base de datos.
-- Matplotlib y Seaborn: Facilitan la generación de gráficos detallados.
+- **Python:** Fácil manejo de datos y amplia compatibilidad con bibliotecas de análisis.
+- **Google SQL (MySQL):** Permite escalabilidad y acceso remoto a la base de datos.
+- **Matplotlib y Seaborn:** Facilitan la generación de gráficos detallados.
 
 ### Establecimiento de Plazos
 
-🗓 Fases del Proyecto y Cronograma
+Fases del Proyecto y Cronograma
 
-📅 Semana 1 (8 - 12 de marzo):
-✅ Preparación de datos (extracción, limpieza y carga en AWS).
-✅ Exploración inicial de los datos.
+* 📅 Semana 1 (8 - 12 de marzo):
+    - Preparación de datos (extracción, limpieza y carga en Google SQL).
+    - Exploración inicial de los datos.
+    - 3 Horas planificadas
 
-📅 Semana 2 (13 - 17 de marzo):
-✅ Análisis de tendencias y segmentación de clientes.
-✅ Identificación de correlaciones y generación de gráficos.
-✅ Generación de conclusiones y recomendaciones.
+* 📅 Semana 2 (13 - 17 de marzo):
+    - Análisis de tendencias y segmentación de clientes.
+    - Identificación de correlaciones y generación de gráficos.
+    - Generación de conclusiones y recomendaciones.
+    - 10 Horas planificadas
 
-📅 Semana 3 (18 - 20 de marzo):
-✅ Revisión y optimización del código.
-✅ Preparación del informe final y presentación.
-✅ Entrega del proyecto el 20 de marzo.
+* 📅 Semana 3 (18 - 20 de marzo):
+    - Revisión y optimización del código.
+    - Preparación del informe final y presentación.
+    - Entrega del proyecto el 20 de marzo.
+    - 4 Horas planificadas
 
 --------------------------------------------------------
-## Proceso de Analisis
-#### 📌 Manual de Análisis de Datos: Ventas en Línea
+## PROCESO DE ANALISIS
+#### Manual de Análisis de Datos: Ventas en Línea
 
-##### **1️⃣ Enfoque Paso a Paso para la Limpieza y Preparación de los Datos**
+### **Enfoque Paso a Paso para la Limpieza y Preparación de los Datos**
 
-###### **📌 Paso 1: Extracción de Datos**  
 **Fuente:** Archivo CSV `ventas_tienda_online.csv`  
 **Acción:** Se cargaron los datos en un DataFrame de Pandas utilizando:
 
@@ -69,96 +72,113 @@ import pandas as pd
 df = pd.read_csv("ventas_tienda_online.csv")
 ```
 
+* **Paso 1:** Conversión de Tipos de Datos
+
+    - Se convierte la columna purchase_date a tipo datetime usando pd.to_datetime con errors='coerce' para que los valores inválidos se transformen en NaT.
+    
+    - Se transforman las columnas product_price y order_total a numérico mediante pd.to_numeric con errors='coerce', reemplazando valores no convertibles por 0 y redondeando a 4 decimales.
+
+    ```python
+    df['purchase_date'] = pd.to_datetime(df['purchase_date'], errors='coerce')
+    df['product_price'] = pd.to_numeric(df['product_price'], errors='coerce').fillna(0).round(4)
+    df['order_total'] = pd.to_numeric(df['order_total'], errors='coerce').fillna(0).round(4)
+    ```
+
+* **Paso 2:** Limpieza de Valores Categóricos y Nulos
+    
+    - En la columna customer_gender, se reemplazan valores como "0", "-", "", pd.NA y None por "Sin definir".
+
+    - Para customer_age, se sustituyen valores inválidos (como "0", "-", "", pd.NA, None) por 0.
+
+    - Se reemplazan valores en product_name y product_category por "Sin definir" cuando sean vacíos o inválidos.
+
+    - En payment_method, se reemplazan valores vacíos o nulos por "Sin definir".
+
+    - Para quantity, se sustituyen valores como "0", "-", "", pd.NA y None por 0.
+
+    ```python
+    df['customer_gender'] = df['customer_gender'].replace(["0", "-", "", pd.NA, None], "Sin definir")
+    df['customer_age'] = df['customer_age'].replace(["0", "-", "", pd.NA, None], 0)
+    df['product_name'] = df['product_name'].replace(["0", "-", "", pd.NA, None], "Sin definir")
+    df['product_category'] = df['product_category'].replace(["0", "-", "", pd.NA, None], "Sin definir")
+    df['payment_method'] = df['payment_method'].replace(["", pd.NA, None], "Sin definir")
+    df['quantity'] = df['quantity'].replace(["0", "-", "", pd.NA, None], 0)
+    ```
+
+* **Paso 3:** Preparación de Dimensiones para la Carga en la Base de Datos
+
+    - Se genera la dimensión de géneros (dim_gender) eliminando duplicados y asignando un identificador único.
+
+    - Para la dimensión de clientes (dim_customer), se selecciona la última fecha de compra de cada cliente y se asigna el identificador de género correspondiente.
+
+    - Se extraen las dimensiones de productos (dim_product), órdenes (dim_order) y detalles de órdenes (dim_order_detail) eliminando duplicados según corresponda.
+
+    ```python
+    # Dimensión de género
+    dim_gender = df[['customer_gender']].drop_duplicates().copy()
+    dim_gender['gender_id'] = range(1, len(dim_gender) + 1)
+
+    # Dimensión de clientes: se selecciona la última fecha de compra para cada cliente
+    dim_customer = df[['customer_id', 'customer_gender', 'customer_age', 'purchase_date']].drop_duplicates().copy()
+    dim_customer = dim_customer.loc[dim_customer.groupby('customer_id')['purchase_date'].idxmax()]
+    dim_customer['gender_id'] = dim_customer['customer_gender'].map(dim_gender.set_index('customer_gender')['gender_id'])
+
+    # Dimensión de productos
+    dim_product = df[['product_name', 'product_category', 'product_price']].drop_duplicates().copy()
+    dim_product = dim_product.drop_duplicates(subset=['product_name'])
+    ```
+
+* **Resultado:**
+
+    - Con estos pasos, los datos se limpian y preparan de forma que tengan los tipos de datos correctos y valores consistentes. Además, se generan las dimensiones necesarias para proceder a la carga de datos en la base de datos relacional.
+    ```python
+    return dim_gender, dim_customer, dim_product, dim_order, dim_order_detail
+    ```
+------------------------------------------------------------
+
+### **Decisiones Tomadas Durante el Análisis Exploratorio de Datos**  
 ---
+* **Análisis Inicial**  
+    - Se calcularon **estadísticas básicas**:
+    ```python
+    print(df.describe())
+    ```
 
-###### **📌 Paso 2: Identificación de Problemas en los Datos**  
-Se verificaron los siguientes aspectos:
+* Se realizaron **visualizaciones** para identificar patrones:
+    - **Ventas por categoría de producto**
+    - **Ventas por región**
+    - **Tendencias de ventas por mes**
 
-```python
-print(df.isnull().sum())  # Valores nulos
-print(df.duplicated().sum())  # Datos duplicados
-print(df.dtypes)  # Tipos de datos
-```
+* **Decisiones Claves:**
+    1. Segmentación de clientes por edad (`0-18`, `19-25`, `26-35`, etc.).
+    2. Identificación de productos más vendidos.
+    3. Relación entre métodos de pago y categorías de productos.
+    4. Determinación de meses con mayores y menores ventas.
+---
+### **Desafíos Encontrados y Cómo Fueron Superados**  
+---
+1. **Datos Incompletos o Nulos**
+    - **Problema:** Algunas columnas tenían valores faltantes.
+    - **Solución:** Se rellenaron con valores estadísticos (moda, mediana, media).  
 
 ---
-
-###### **📌 Paso 3: Limpieza y Corrección de Datos**  
-
-| Problema Detectado | Solución Implementada |
-|--------------------|----------------------|
-| **Valores nulos en `customer_gender`, `product_category`, `payment_method`** | Se llenaron con la moda (valor más frecuente). |
-| **Valores nulos en `customer_age`** | Se llenaron con la mediana de la edad. |
-| **Valores nulos en `product_price`** | Se reemplazaron con la media del precio. |
-| **Datos duplicados** | Se eliminaron usando `df.drop_duplicates()`. |
-| **Formato de fecha incorrecto (`purchase_date`)** | Se convirtió a `datetime` con `pd.to_datetime()`. |
-
-✅ **Código de limpieza:**
-
-```python
-df.drop_duplicates(inplace=True)
-df.fillna({
-    'customer_gender': df['customer_gender'].mode()[0],
-    'customer_age': df['customer_age'].median(),
-    'product_category': df['product_category'].mode()[0],
-    'product_price': df['product_price'].mean()
-}, inplace=True)
-df['purchase_date'] = pd.to_datetime(df['purchase_date'], dayfirst=True)
-```
-
-✅ **Resultado:** Datos limpios y listos para el análisis.  
+2. **Formato de Fechas Incorrecto**  
+    - **Problema:** `purchase_date` estaba en un formato no estándar.  
+    - **Solución:** Se convirtió a `datetime` con `dayfirst=True`.  
 
 ---
-
-##### **2️⃣ Decisiones Tomadas Durante el Análisis Exploratorio de Datos**  
-
-###### **📌 Análisis Inicial**  
-✅ Se calcularon **estadísticas básicas**:
-
-```python
-print(df.describe())
-```
-
-✅ Se realizaron **visualizaciones** para identificar patrones:
-
-- **Ventas por categoría de producto** 📊
-- **Ventas por región** 🌎
-- **Tendencias de ventas por mes** 📅
-
-✅ **Decisiones Claves:**
-1. **Segmentación de clientes** por edad (`0-18`, `19-25`, `26-35`, etc.).
-2. Identificación de **productos más vendidos**.
-3. **Relación entre métodos de pago y categorías de productos**.
-4. Determinación de **meses con mayores y menores ventas**.
-
----
-
-##### **3️⃣ Desafíos Encontrados y Cómo Fueron Superados**  
-
-###### **📌 1. Datos Incompletos o Nulos**  
-🔴 **Problema:** Algunas columnas tenían valores faltantes.  
-✅ **Solución:** Se rellenaron con valores estadísticos (moda, mediana, media).  
-
----
-
-###### **📌 2. Formato de Fechas Incorrecto**  
-🔴 **Problema:** `purchase_date` estaba en un formato no estándar.  
-✅ **Solución:** Se convirtió a `datetime` con `dayfirst=True`.  
-
----
-
-###### **📌 3. Volumen de Datos y Tiempo de Procesamiento**  
-🔴 **Problema:** Algunas consultas demoraban demasiado al analizar tendencias.  
-✅ **Solución:** Se optimizaron cálculos con `groupby()` y `sum()`.  
+3. **Volumen de Datos y Tiempo de Procesamiento**  
+    - **Problema:** Algunas consultas demoraban demasiado al analizar tendencias.  
+    - **Solución:** Se optimizaron cálculos con `groupby()` y `sum()`.  
 
 ```python
 df.groupby('month')['order_total'].sum()
 ```
 
 ---
-
-###### **📌 4. Visualización de Datos con Categorías Mixtas**  
-🔴 **Problema:** Algunas categorías tenían muchas subcategorías, dificultando la visualización.  
-✅ **Solución:** Se agruparon y se usaron gráficos de **barras y dispersión**.
+4. **Visualización de Datos con Categorías Mixtas**  
+    - **Problema:** Algunas categorías tenían muchas subcategorías, dificultando la visualización.  
+    - **Solución:** Se agruparon y se usaron gráficos de **barras y dispersión**.
 
 ```python
 import seaborn as sns
@@ -166,10 +186,9 @@ sns.barplot(x=df['product_category'], y=df['order_total'], estimator=sum)
 ```
 
 ---
-
-###### **📌 5. Análisis de Correlación**  
-🔴 **Problema:** No se podía calcular correlación directamente entre `product_category` y `payment_method`.  
-✅ **Solución:** Se usaron gráficos de **conteo (`sns.countplot()`)**.
+5. Análisis de Correlación**  
+    - **Problema:** No se podía calcular correlación directamente entre `product_category` y `payment_method`.
+    - **Solución:** Se usaron gráficos de **conteo (`sns.countplot()`)**.
 
 ```python
 sns.countplot(x=df['product_category'], hue=df['payment_method'])
@@ -177,13 +196,12 @@ sns.countplot(x=df['product_category'], hue=df['payment_method'])
 
 
 --------------------------------------
-## 📌 Metodología: Selección de Visualizaciones en el Análisis de Datos
+## METODOLOGÍA
 
-### **1️⃣ Introducción**
+### Selección de Visualizaciones en el Análisis de Datos
+Se describe la metodología utilizada para seleccionar las visualizaciones más apropiadas en el análisis de los datos de ventas en línea. La selección de gráficos se basó en la naturaleza de los datos y el tipo de información que se quería comunicar.
 
-En este documento se describe la metodología utilizada para seleccionar las visualizaciones más apropiadas en el análisis de los datos de ventas en línea. La selección de gráficos se basó en la naturaleza de los datos y el tipo de información que se quería comunicar.
-
-### **2️⃣ Criterios para la Selección de Visualizaciones**
+### **Criterios para la Selección de Visualizaciones**
 
 Para elegir las visualizaciones, consideramos los siguientes factores:
 
@@ -191,7 +209,7 @@ Para elegir las visualizaciones, consideramos los siguientes factores:
 - **Objetivo del análisis**: Comparación, distribución, tendencia o correlación.
 - **Claridad y facilidad de interpretación**: La visualización debía ser comprensible para diferentes públicos.
 
-### **3️⃣ Tipos de Visualizaciones y su Justificación**
+### **Tipos de Visualizaciones y su Justificación**
 
 | **Tipo de Gráfico** | **Uso en el Proyecto** | **Justificación** |
 |--------------------|---------------------|------------------|
@@ -204,11 +222,11 @@ Para elegir las visualizaciones, consideramos los siguientes factores:
 | **Heatmap (Mapa de Calor)** | Matriz de correlación entre variables numéricas | Resalta relaciones entre múltiples variables de forma visualmente efectiva. |
 
 
-### **4️⃣ Aplicación de Visualizaciones en el Análisis**
+### **Aplicación de Visualizaciones en el Análisis**
 
-#### **📊 1. Comparación de Ventas por Categoría de Producto**
-✅ **Visualización utilizada:** Gráfico de Barras  
-✅ **Motivo:** Permite comparar rápidamente las ventas entre categorías.
+#### **1. Comparación de Ventas por Categoría de Producto**
+- **Visualización utilizada:** Gráfico de Barras  
+- **Motivo:** Permite comparar rápidamente las ventas entre categorías.
 
 ```python
 import seaborn as sns
@@ -225,9 +243,9 @@ plt.show()
 
 ---
 
-#### **📉 2. Tendencia de Ventas por Mes**
-✅ **Visualización utilizada:** Gráfico de Líneas  
-✅ **Motivo:** Muestra la evolución de las ventas en el tiempo.
+#### **2. Tendencia de Ventas por Mes**
+- **Visualización utilizada:** Gráfico de Líneas  
+- **Motivo:** Muestra la evolución de las ventas en el tiempo.
 
 ```python
 df['month'] = df['purchase_date'].dt.month_name()
@@ -242,9 +260,9 @@ plt.xticks(rotation=45)
 plt.show()
 ```
 
-#### **📌 3. Relación entre Edad del Cliente y Total de la Orden**
-✅ **Visualización utilizada:** Gráfico de Dispersión  
-✅ **Motivo:** Permite visualizar tendencias y correlaciones.
+#### **3. Relación entre Edad del Cliente y Total de la Orden**
+- **Visualización utilizada:** Gráfico de Dispersión  
+- **Motivo:** Permite visualizar tendencias y correlaciones.
 
 ```python
 plt.figure(figsize=(8, 6))
@@ -256,9 +274,9 @@ plt.show()
 ```
 
 
-#### **📌 4. Método de Pago Preferido por Categoría de Producto**
-✅ **Visualización utilizada:** Gráfico de Barras Apiladas  
-✅ **Motivo:** Muestra la distribución de métodos de pago en cada categoría.
+#### **4. Método de Pago Preferido por Categoría de Producto**
+- **Visualización utilizada:** Gráfico de Barras Apiladas  
+- **Motivo:** Muestra la distribución de métodos de pago en cada categoría.
 
 ```python
 plt.figure(figsize=(12, 6))
@@ -270,11 +288,19 @@ plt.xticks(rotation=45)
 plt.legend(title="Método de Pago")
 plt.show()
 ```
-### Modelo Entidad Relacion
+---
+### MODELO ENTIDAD RELACIÓN
+---
+* Diagrama
+
 ![Diagrama ER](./img/ER.png)
 
+* Diagrama db
 
-### **5️⃣ Conclusión**
+![Diagrama Entidad Relacion](./img/Enridad%20Relacion.png)
+
+
+### **CONCLUSIONES**
 
 #### Variedad de métodos de pago equilibrada
 - El uso de efectivo, transferencia bancaria, tarjeta de crédito y PayPal está distribuido casi de manera uniforme. Esto indica que los clientes no tienen una preferencia dominante y valoran la disponibilidad de múltiples métodos de pago.
@@ -291,7 +317,7 @@ plt.show()
 - La correlación entre la edad del cliente y el total de la orden es débil, lo que implica que la edad no es un factor determinante en el gasto por pedido, aunque el volumen total de ventas sea más alto en el segmento de mayor edad.
 
 -----------------------
-## Recomendaciones
+## **RECOMENDACIONES**
 
 ### Estudiante 1: Luis David Garcia Alay
 #### Enfoque de marketing segmentado por edad
@@ -317,6 +343,8 @@ La adopción equilibrada de diferentes métodos de pago sugiere que los clientes
 
 - También se pueden lanzar programas de fidelización que ofrezcan beneficios al adquirir productos de distintas categorías, maximizando así el valor promedio de cada cliente.
  
+
+
 -----------------
 # Respuestas a las preguntas claves de la practica
 
@@ -329,6 +357,12 @@ Los datos revelan patrones específicos en el comportamiento de los clientes—p
 
 - **Responder rápidamente a tendencias:** La identificación de picos y caídas en ventas permite implementar estrategias de respuesta rápida, lo cual es difícil de igualar para la competencia que no cuenta con análisis de datos en tiempo real.
 
+Luis David Garcia Alay:
+- Permiten personalizar la oferta y mejorar la experiencia de compra, facilitando campañas dirigidas y respuestas ágiles ante tendencias del mercado.
+
+Eliezer Abraham Zapeta Alvarado:
+- La identificación de patrones en métodos de pago y comportamientos de compra permite diseñar estrategias que optimicen el servicio y fidelicen a los clientes.
+
 ## b. ¿Qué decisiones estratégicas podrían tomarse basándose en este análisis para aumentar las ventas y la satisfacción del cliente?
 Algunas decisiones estratégicas basadas en el análisis podrían ser:
 
@@ -340,6 +374,12 @@ Algunas decisiones estratégicas basadas en el análisis podrían ser:
 
 - **Mejorar la experiencia de compra digital:** Asegurarse de que la variedad de métodos de pago y la interfaz de compra sean óptimos, lo que puede aumentar la satisfacción y fidelidad del cliente.
 
+Luis David Garcia Alay:
+- Implementar campañas segmentadas, promociones estacionales y bundles de productos para aumentar el ticket promedio y la satisfacción del cliente.
+
+Eliezer Abraham Zapeta Alvarado:
+- Ajustar la estrategia de marketing según los segmentos rentables y optimizar la experiencia digital para captar la preferencia de distintos grupos demográficos.
+
 ## c. ¿Cómo podría este análisis de datos ayudar a la empresa a ahorrar costos o mejorar la eficiencia operativa?
 El análisis permite optimizar recursos y procesos internos al:
 
@@ -350,6 +390,12 @@ El análisis permite optimizar recursos y procesos internos al:
 - **Reducir costos de marketing:** Al enfocar las campañas en segmentos y periodos específicos, se optimiza la inversión publicitaria, dirigiendo recursos a acciones con mayor probabilidad de conversión.
 
 - **Mejorar procesos internos:** La detección de ineficiencias (por ejemplo, en la cadena de suministro o en el proceso de atención al cliente) permite implementar mejoras que reduzcan costos operativos a largo plazo.
+
+Luis David Garcia Alay:
+- Permite optimizar la gestión de inventario y logística, evitando excesos o faltantes y reduciendo costos operativos.
+
+Eliezer Abraham Zapeta Alvarado:
+- Un análisis detallado ayuda a ajustar procesos internos y la asignación de personal según la demanda, mejorando la eficiencia y reduciendo costos.
 
 ## d. ¿Qué datos adicionales recomendarían recopilar para obtener insights aún más valiosos en el futuro?
 Para profundizar en el análisis y obtener una visión más completa, se podrían recopilar los siguientes datos adicionales:
@@ -364,4 +410,9 @@ Para profundizar en el análisis y obtener una visión más completa, se podría
 
 - **Datos de campañas publicitarias y ROI:** Información sobre la efectividad de las acciones de marketing (costos, conversiones, retorno de inversión) que ayuden a optimizar futuras inversiones publicitarias.
 
+Luis David Garcia Alay:
+- Recopilar datos sobre el comportamiento en el sitio web, retroalimentación directa del cliente y métricas de campañas publicitarias para enriquecer el análisis.
+
+Eliezer Abraham Zapeta Alvarado:
+- Recabar información demográfica y geográfica más detallada, además de datos sobre la competencia y el mercado, para permitir una segmentación y estrategias más precisas.
 -----------
